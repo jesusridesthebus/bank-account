@@ -7,7 +7,6 @@ Accounts.prototype.addAccount = function(account) {
 	this.accounts.push(account);
 };
 
-
 Accounts.prototype.findAccount = function(name) {
 	for(var i = 0; i < this.accounts.length; i++) {
 		if(this.accounts[i]) {
@@ -26,41 +25,43 @@ function Account(name, balance) {
 
 Account.prototype.withdraw = function(num) {
 	this.balance-=num;
+  if(this.balance < 0) {
+    this.balance -= 35;
+  }
 };
+
 Account.prototype.deposit = function(num) {
 	this.balance+=num;
 };
 
 var accounts = new Accounts();
 
-// function displayContactDetails(addressBookToDisplay) {
-// 	var contactsList = $('ul#contacts');
-// 	var htmlForContactInfo = '';
-// 	addressBookToDisplay.contacts.forEach(function(contact) {
-// 		htmlForContactInfo += '<li id=' + contact.id + '>' + contact.firstName + ' ' + contact.lastName + '</li>';
-// 	});
-// 	contactsList.html(htmlForContactInfo);
-// }
-//
-// function showContact(contactId) {
-// 	var contact = addressBook.findContact(contactId);
-// 	$('#show-contact').show();
-// 	$('.first-name').html(contact.firstName);
-// 	$('.last-name').html(contact.lastName);
-// 	$('.phone-number').html(contact.phoneNumber);
-// 	var buttons = $('#buttons');
-// 	buttons.empty();
-// 	buttons.append('<button class=\'deleteButton\' id=' + contact.id + '>Delete</button>');
-// }
+function displayAccountDetails(accountToDisplay) {
+	var accountList = $('ul#account-list');
+	var htmlForAccountInfo = '';
+	accountToDisplay.accounts.forEach(function(account) {
+		htmlForAccountInfo += '<li class=' + account.name + '>' + account.name + ' $' + account.balance + '</li>';
+	});
+	accountList.html(htmlForAccountInfo);
+}
+
+function showContact(contactId) {
+	var contact = addressBook.findContact(contactId);
+	$('#show-contact').show();
+	$('.first-name').html(contact.firstName);
+	$('.last-name').html(contact.lastName);
+	$('.phone-number').html(contact.phoneNumber);
+	var buttons = $('#buttons');
+	buttons.empty();
+	buttons.append('<button class=\'deleteButton\' id=' + contact.id + '>Delete</button>');
+}
 
 function attachContactListeners() {
-	$('ul#contacts').on('click', 'li', function() {
-		showContact(this.id);
-	});
-	$('#buttons').on('click', '.deleteButton', function() {
-		addressBook.deleteContact(this.id);
-		$('#show-contact').hide();
-		displayContactDetails(addressBook);
+	$('ul').on('click', 'li', function() {
+    console.log(this);
+    $('.nameCheck').val(this.class);
+    $('.deposit').val(this.class);
+    $('.withdraw').val(this.class);
 	});
 }
 
@@ -72,20 +73,21 @@ $(function() {
     accounts.addAccount(new Account($('input.name').val(),parseInt($('input.initial').val())));
     console.log(accounts);
 
-		$('input#new-first-name').val('');
-		$('input#new-last-name').val('');
-		$('input#new-phone-number').val('');
-
-		//var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
-		//addressBook.addContact(newContact);
-		//displayContactDetails(addressBook);
+		$('input.form-control').val('');
+    displayAccountDetails(accounts);
 	});
+
   $('form#transactions').submit(function(event) {
 		event.preventDefault();
 
 		var toMod = accounts.findAccount($('input.nameCheck').val());
+    if(!toMod) {
+      alert("No Account");
+    } else {
     toMod.withdraw(parseInt($('input.withdraw').val()));
     toMod.deposit(parseInt($('input.deposit').val()));
+    }
+    displayAccountDetails(accounts);
     console.log(accounts);
 	});
 });
