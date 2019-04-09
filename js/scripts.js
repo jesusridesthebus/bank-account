@@ -36,32 +36,29 @@ Account.prototype.deposit = function(num) {
 
 var accounts = new Accounts();
 
-function displayAccountDetails(accountToDisplay) {
+function displayAllAccounts(accountToDisplay) {
 	var accountList = $('ul#account-list');
-	var htmlForAccountInfo = '';
+	var htmlForAccountInfo = '<h2>Accounts:</h2>';
 	accountToDisplay.accounts.forEach(function(account) {
-		htmlForAccountInfo += '<li class=' + account.name + '>' + account.name + ' $' + account.balance + '</li>';
+		htmlForAccountInfo += '<li id=' + account.name + '>' + account.name + ' $' + account.balance + '</li>';
 	});
 	accountList.html(htmlForAccountInfo);
 }
 
-function showContact(contactId) {
-	var contact = addressBook.findContact(contactId);
-	$('#show-contact').show();
-	$('.first-name').html(contact.firstName);
-	$('.last-name').html(contact.lastName);
-	$('.phone-number').html(contact.phoneNumber);
+function showAccountDetails(accountToDisplay) {
+	var account = accounts.findAccount(accountToDisplay);
+  console.log(account);
+	$('#show-accounts').show();
+	$('.name').text(account.name);
+	$('.account-balance').text(account.balance);
 	var buttons = $('#buttons');
 	buttons.empty();
-	buttons.append('<button class=\'deleteButton\' id=' + contact.id + '>Delete</button>');
+	// buttons.append('<button class=\'deleteButton\' id=' + contact.id + '>Delete</button>');
 }
 
 function attachContactListeners() {
 	$('ul').on('click', 'li', function() {
-    console.log(this);
-    $('.nameCheck').val(this.class);
-    $('.deposit').val(this.class);
-    $('.withdraw').val(this.class);
+    showAccountDetails(this.id);
 	});
 }
 
@@ -74,7 +71,7 @@ $(function() {
     console.log(accounts);
 
 		$('input.form-control').val('');
-    displayAccountDetails(accounts);
+    displayAllAccounts(accounts);
 	});
 
   $('form#transactions').submit(function(event) {
@@ -84,10 +81,14 @@ $(function() {
     if(!toMod) {
       alert("No Account");
     } else {
+      console.log(parseInt($('input.withdraw').val()));
+    if(parseInt($('input.withdraw').val()) > 0) {
     toMod.withdraw(parseInt($('input.withdraw').val()));
+    }
+    if(parseInt($('input.deposit').val()) > 0)
     toMod.deposit(parseInt($('input.deposit').val()));
     }
-    displayAccountDetails(accounts);
+    displayAllAccounts(accounts);
     console.log(accounts);
 	});
 });
