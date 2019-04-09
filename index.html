@@ -13,25 +13,31 @@
       <h1>Bank of Ye Olde Epicodusse</h1>
       <section class="row">
         <section class="col-md-6">
-          <form class="form-group" id="transactions">
+          <form class="form-group" id="create">
             <label for="register"><h2>Register a New Account</h2></label>
             <section id="register">
               <label for="name">Name: </label>
-              <input type="text" class="form-control" name="" value="">
+              <input type="text" class="form-control name" name="" value="">
               <label for="deposit">Initial Deposit: </label>
-              <input type="number" class="form-control" name="" value="">
-            </section>
-          </section>
-            <section class="col-md-6">
-              <label for="register"><h2>Deposit or Withdraw Funds</h2></label>
-              <section id="deposit-withdraw">
-                <label for="deposit">Deposit Amount: </label>
-                <input type="number" class="form-control" name="" value="">
-                <label for="withdrawal">Withdrawal Amount: </label>
-                <input type="number" class="form-control" name="" value="">
-              </section>
+              <input type="number" class="form-control initial" name="" value="">
+              <button type="submit" class="btn btn-dark">Add</button>
             </section>
           </form>
+        </section>
+          <section class="col-md-6">
+            <form class="form-group" id="transactions">
+            <label for="register"><h2>Deposit or Withdraw Funds</h2></label>
+            <section id="deposit-withdraw">
+              <label for="nameCheck">Name: </label>
+              <input type="text" class="form-control nameCheck" name="" value="">
+              <label for="deposit">Deposit Amount: </label>
+              <input type="number" class="form-control deposit" name="" value="">
+              <label for="withdrawal">Withdrawal Amount: </label>
+              <input type="number" class="form-control withdraw" name="" value="">
+              <button type="submit" class="btn btn-dark">Modify</button>
+            </form>
+          </section>
+        </section>
       </section>
     </main>
   </body>
